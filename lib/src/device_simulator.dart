@@ -52,14 +52,18 @@ class DeviceSimulator extends StatefulWidget {
   /// The color of the top Android status bar (default is transparent black).
   final Color androidStatusBarBackgroundColor;
 
+  final bool useCustomNavigator;
+
   /// Creates a new [DeviceSimulator].
-  DeviceSimulator(
-      {@required this.child,
-      this.enable = true,
-      this.brightness = Brightness.light,
-      this.iOSMultitaskBarColor = Colors.grey,
-      this.androidShowNavigationBar = true,
-      this.androidStatusBarBackgroundColor = Colors.black26});
+  DeviceSimulator({
+    @required this.child,
+    this.enable = true,
+    this.brightness = Brightness.light,
+    this.iOSMultitaskBarColor = Colors.grey,
+    this.androidShowNavigationBar = true,
+    this.androidStatusBarBackgroundColor = Colors.black26,
+    this.useCustomNavigator = false,
+  });
 
   _DeviceSimulatorState createState() => _DeviceSimulatorState();
 }
@@ -133,11 +137,11 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
       ),
       child: Theme(
         data: theme.copyWith(platform: _platform),
-        child: CustomNavigator(
+        child: widget.useCustomNavigator ? CustomNavigator(
           navigatorKey: _navigatorKey,
           home: widget.child,
           pageRoute: PageRoutes.materialPageRoute,
-        ),
+        ) : widget.child,
       ),
     );
 
