@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -51,14 +52,18 @@ class DeviceSimulator extends StatefulWidget {
   /// The color of the top Android status bar (default is transparent black).
   final Color androidStatusBarBackgroundColor;
 
+  final bool useCustomNavigator;
+
   /// Creates a new [DeviceSimulator].
-  DeviceSimulator(
-      {@required this.child,
-      this.enable = true,
-      this.brightness = Brightness.light,
-      this.iOSMultitaskBarColor = Colors.grey,
-      this.androidShowNavigationBar = true,
-      this.androidStatusBarBackgroundColor = Colors.black26});
+  DeviceSimulator({
+    @required this.child,
+    this.enable = true,
+    this.brightness = Brightness.light,
+    this.iOSMultitaskBarColor = Colors.grey,
+    this.androidShowNavigationBar = true,
+    this.androidStatusBarBackgroundColor = Colors.black26,
+    this.useCustomNavigator = false,
+  });
 
   _DeviceSimulatorState createState() => _DeviceSimulatorState();
 }
@@ -81,6 +86,7 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
     var theme = Theme.of(context);
 
     if (mq.size.width < 768.0 || mq.size.height < 768.0) {
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
       return DisabledDeviceSimulator(
         child: widget.child,
         style: _kTextStyle,
@@ -119,19 +125,23 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
     if (mq.orientation == Orientation.landscape &&
         spec.paddingLandscape != null) padding = spec.paddingLandscape;
 
+    /// Provide values for iOS, Web if needed...
+    double nativeBottomNavigationBarSize = (Platform.isAndroid) ? 48.0 : 0.0;
+
     var content = MediaQuery(
       key: _contentKey,
       data: mq.copyWith(
         size: Size(simulatedSize.width, simulatedSize.height - navBarHeight),
         padding: padding,
+        viewInsets: mq.viewInsets.copyWith(bottom: mq.viewInsets.bottom - nativeBottomNavigationBarSize),
       ),
       child: Theme(
         data: theme.copyWith(platform: _platform),
-        child: CustomNavigator(
+        child: widget.useCustomNavigator ? CustomNavigator(
           navigatorKey: _navigatorKey,
           home: widget.child,
           pageRoute: PageRoutes.materialPageRoute,
-        ),
+        ) : widget.child,
       ),
     );
 
