@@ -358,17 +358,22 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
                     ),
                   ),
                   Expanded(
-                    child: Slider(
-                      divisions: specs.length - 1,
-                      min: 0.0,
-                      max: (specs.length - 1).toDouble(),
-                      value: _currentDevice.toDouble(),
-                      label: specs[_currentDevice].name,
-                      onChanged: (double device) {
-                        setState(() {
-                          _currentDevice = device.round();
-                        });
-                      },
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        showValueIndicator: ShowValueIndicator.never,
+                      ),
+                      child: Slider(
+                        divisions: specs.length - 1,
+                        min: 0.0,
+                        max: (specs.length - 1).toDouble(),
+                        value: _currentDevice.toDouble(),
+                        label: null,
+                        onChanged: (double device) {
+                          setState(() {
+                            _currentDevice = device.round();
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ],
