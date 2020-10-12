@@ -125,15 +125,12 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
     if (mq.orientation == Orientation.landscape &&
         spec.paddingLandscape != null) padding = spec.paddingLandscape;
 
-    /// Provide values for iOS, Web if needed...
-    double nativeBottomNavigationBarSize = (Platform.isAndroid) ? 48.0 : 0.0;
-
     var content = MediaQuery(
       key: _contentKey,
       data: mq.copyWith(
         size: Size(simulatedSize.width, simulatedSize.height - navBarHeight),
         padding: padding,
-        viewInsets: mq.viewInsets.copyWith(bottom: mq.viewInsets.bottom - nativeBottomNavigationBarSize),
+        viewInsets: mq.viewInsets.copyWith(bottom: 0),
       ),
       child: Theme(
         data: theme.copyWith(platform: _platform),
