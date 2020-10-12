@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -130,7 +129,7 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
       data: mq.copyWith(
         size: Size(simulatedSize.width, simulatedSize.height - navBarHeight),
         padding: padding,
-        viewInsets: mq.viewInsets.copyWith(bottom: 0),
+        viewInsets: spec.padding,
       ),
       child: Theme(
         data: theme.copyWith(platform: _platform),
@@ -284,7 +283,7 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
                   ),
                   IconButton(
                     icon: Icon(
-                      IconApple.apple, // TODO: better image
+                      IconApple.apple,
                       color: _platform == TargetPlatform.iOS
                           ? Colors.white
                           : Colors.white24,
