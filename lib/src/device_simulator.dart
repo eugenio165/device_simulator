@@ -7,7 +7,6 @@ import 'device_spec_list.dart';
 import 'disabled.dart';
 import 'fake_android_status_bar.dart';
 import 'fake_ios_status_bar.dart';
-import 'apple_icon.dart';
 
 const double _kSettingsHeight = 72.0;
 final Color _kBackgroundColor = Colors.grey[900];
@@ -281,13 +280,16 @@ class _DeviceSimulatorState extends State<DeviceSimulator> {
                       });
                     },
                   ),
-                  IconButton(
-                    icon: Icon(
-                      IconApple.apple,
-                      color: _platform == TargetPlatform.iOS
-                          ? Colors.white
-                          : Colors.white24,
-                      size: 20.0,
+                  FlatButton(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _platform == TargetPlatform.iOS
+                          ? Colors.red
+                          : Colors.red[200],
+                      ),
+                      height: 15.0,
+                      width: 15.0
                     ),
                     onPressed: () {
                       setState(() {
